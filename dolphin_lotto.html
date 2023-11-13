@@ -44,7 +44,7 @@
 
         function generateLottoNumbers() {
             // Generate 6 unique random numbers between 1 and 49
-            lottoNumbers = Array.from({ length: 6 }, () => generateUniqueRandomNumber(1, 49));
+            lottoNumbers = generateUniqueRandomNumbers(1, 49, 6);
             document.getElementById('lottoNumbers').innerHTML = `<p>Winning Numbers: ${lottoNumbers.join(', ')}</p>`;
             resetGuessGrid();
         }
@@ -95,7 +95,7 @@
             });
         }
 
-          function generateUniqueRandomNumbers(min, max, count) {
+        function generateUniqueRandomNumbers(min, max, count) {
             const uniqueNumbers = new Set();
 
             while (uniqueNumbers.size < count) {
