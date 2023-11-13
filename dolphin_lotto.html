@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lotto Web Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+        }
+        input {
+            width: 40px;
+            font-size: 16px;
+            text-align: center;
+            margin: 5px;
+        }
+        #lottoNumbers {
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lotto Web Game</h1>
+    <p>Match all numbers to win!</p>
+    
+    <div id="lottoNumbers"></div>
+    
+    <button onclick="generateLottoNumbers()">Generate Lotto Numbers</button>
+    <button onclick="showHint()">Get a Hint</button>
+
+    <h2>Enter Your Guess:</h2>
+    <div id="guessGrid"></div>
+    <button onclick="checkGuess()">Check Guess</button>
+
+    <script>
+        let lottoNumbers = [];
+
+        function generateLottoNumbers() {
+            lottoNumbers = Array.from({ length: 6 }, () => Math.floor(Math.random() * 49) + 1);
+            document.getElementById('lottoNumbers').innerHTML = `<p>Winning Numbers: ${lottoNumbers.join(', ')}</p>`;
+            resetGuessGrid();
+        }
+
+        function showHint() {
+            if (lottoNumbers.length > 0) {
+                const hintNumber = lottoNumbers[Math.floor(Math.random() * lottoNumbers.length)];
+                alert(`Hint: One of the winning numbers is ${hintNumber}`);
+            } else {
+                alert('Generate lotto numbers first.');
+            }
+        }
+
+        function resetGuessGrid() {
+            const guessGrid = document.getElementById('guessGrid');
+            guessGrid.innerHTML = '';
+
+            for (let i = 0; i < 6; i++) {
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.min = '1';
+                input.max = '49';
+                guessGrid.appendChild(input);
+            }
+        }
+
+        function checkGuess() {
+            const guessInputs = document.querySelectorAll('#guessGrid input');
+            const playerGuess = Array.from(guessInputs).map(input => parseInt(input.value, 10));
+
+            if (playerGuess.some(isNaN) || playerGuess.length !== 6) {
+                alert('Please enter 6 valid numbers between 1 and 49.');
+                return;
+            }
+
+            const correctNumbers = playerGuess.filter(number => lottoNumbers.includes(number)).length;
+
+            if (correctNumbers === 6) {
+                alert('Congratulations! You won the jackpot!');
+            } else if (correctNumbers === 5) {
+                alert('Congratulations! You won a smaller prize for matching 5 numbers!');
+            } else if (correctNumbers === 4) {
+                alert('Congratulations! You won a smaller prize for matching 4 numbers!');
+            } else if (correctNumbers === 3) {
+                alert('Congratulations! You won a smaller prize for matching 3 numbers!');
+            } else {
+                alert('Sorry, try again.');
+            }
+        }
+    </script>
+</body>
+</html>
