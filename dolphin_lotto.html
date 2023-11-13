@@ -43,7 +43,8 @@
         let lottoNumbers = [];
 
         function generateLottoNumbers() {
-            lottoNumbers = Array.from({ length: 6 }, () => Math.floor(Math.random() * 49) + 1);
+            // Generate 6 unique random numbers between 1 and 49
+            lottoNumbers = Array.from({ length: 6 }, () => generateUniqueRandomNumber(1, 49));
             document.getElementById('lottoNumbers').innerHTML = `<p>Winning Numbers: ${lottoNumbers.join(', ')}</p>`;
             resetGuessGrid();
         }
@@ -66,8 +67,40 @@
                 input.type = 'number';
                 input.min = '1';
                 input.max = '49';
+                input.addEventListener('input', () => restrictDuplicateInput(input));
                 guessGrid.appendChild(input);
             }
+        }
+
+        function restrictDuplicateInput(input) {
+            const currentInputValue = parseInt(input.value, 10);
+            const otherInputs = Array.from(document.querySelectorAll('#guessGrid input')).filter(el => el !== input);
+
+            if (isNaN(currentInputValue)) {
+                input.value = '';
+                return;
+            }
+
+            if (currentInputValue < 1 || currentInputValue > 49) {
+                alert('Please enter a valid number between 1 and 49.');
+                input.value = '';
+                return;
+            }
+
+            otherInputs.forEach(otherInput => {
+                if (parseInt(otherInput.value, 10) === currentInputValue) {
+                    alert('Duplicate numbers are not allowed. Please choose a different number.');
+                    input.value = '';
+                }
+            });
+        }
+
+        function generateUniqueRandomNumber(min, max) {
+            let num;
+            do {
+                num = Math.floor(Math.random() * (max - min + 1)) + min;
+            } while (lottoNumbers.includes(num));
+            return num;
         }
 
         function checkGuess() {
