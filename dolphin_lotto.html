@@ -95,12 +95,14 @@
             });
         }
 
-        function generateUniqueRandomNumber(min, max) {
-            let num;
-            do {
-                num = Math.floor(Math.random() * (max - min + 1)) + min;
-            } while (lottoNumbers.includes(num));
-            return num;
+          function generateUniqueRandomNumbers(min, max, count) {
+            const uniqueNumbers = new Set();
+
+            while (uniqueNumbers.size < count) {
+                uniqueNumbers.add(Math.floor(Math.random() * (max - min + 1)) + min);
+            }
+
+            return Array.from(uniqueNumbers);
         }
 
         function checkGuess() {
