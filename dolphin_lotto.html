@@ -67,14 +67,14 @@
                 input.type = 'number';
                 input.min = '1';
                 input.max = '49';
-                input.addEventListener('input', () => restrictDuplicateInput(input, guessGrid));
+                input.addEventListener('blur', () => restrictDuplicateInput(input));
                 guessGrid.appendChild(input);
             }
         }
 
-        function restrictDuplicateInput(input, guessGrid) {
+        function restrictDuplicateInput(input) {
             const currentInputValue = parseInt(input.value, 10);
-            const otherInputs = Array.from(guessGrid.querySelectorAll('input')).filter(el => el !== input);
+            const otherInputs = Array.from(document.querySelectorAll('#guessGrid input')).filter(el => el !== input);
 
             if (isNaN(currentInputValue)) {
                 input.value = '';
