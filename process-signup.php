@@ -24,8 +24,6 @@ if ($_POST["password"] !== $_POST["password_confirmation"]) {
     die("Passwords must match");
 }
 
-$mysqli = require __DIR__ . "/database.php";
-
 $sql = "INSERT INTO users (name, email, password)
         VALUES (?, ?, ?)";
         
