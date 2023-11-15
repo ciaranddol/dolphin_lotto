@@ -1,5 +1,8 @@
 <?php
 
+// Include the database connection
+$pgsqlConnection = require __DIR__ . "/database.php";
+
 if (empty($_POST["name"])) {
     die("Name is required");
 }
@@ -25,25 +28,25 @@ if ($_POST["password"] !== $_POST["password_confirmation"]) {
 }
 
 $sql = "INSERT INTO users (name, email, password)
-        VALUES (?, ?, ?)";
+        VALUES ($1, $2, $3)";
         
-$stmt = $mysqli->stmt_init();
+$stmt = pg_prepare($pgsqlConnection, "", $sql);
 
-if (!$stmt->prepare($sql)) {
-    die("SQL error: " . $mysqli->error);
+if (!$stmt) {
+    die("SQL error: " . pg_last_error());
 }
 
-$stmt->bind_param("sss", $_POST["name"], $_POST["email"], $_POST["password"]);
+$result = pg_execute($pgsqlConnection, "", [$_POST["name"], $_POST["email"], $_POST["password"]]);
 
-if ($stmt->execute()) {
+if ($result) {
     header("Location: signup-success.html");
     exit;
 } else {
-    if ($stmt->errno === 1062) {
+    $error = pg_last_error($pgsqlConnection);
+
+    if (strpos($error, 'duplicate key') !== false) {
         die("Email already taken");
     } else {
-        die($stmt->error . " " . $stmt->errno);
+        die($error);
     }
 }
-
-?>
