@@ -128,6 +128,31 @@
                 alert('Sorry, try again.');
             }
         }
+
+        import { createClient } from 'https://esm.sh/@supabase/supabase-js'
+
+Deno.serve(async (_req) => {
+  try {
+    const supabase = createClient(
+      Deno.env.get('postgresql://postgres:buckbeak1901!@db.fuhzxgckcobvsvhkqppo.supabase.co:5432/postgres') ?? '',
+      Deno.env.get('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1aHp4Z2NrY29idnN2aGtxcHBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk5NTEwMzEsImV4cCI6MjAxNTUyNzAzMX0.2sn7yotizb1xMYHAu9daCM7YPE0u2xeDqAZcEphlVHU') ?? '',
+      { global: { headers: { Authorization: req.headers.get('Authorization')! } } }
+    )
+
+    const { data, error } = await supabase.from('countries').select('*')
+
+    if (error) {
+      throw error
+    }
+
+    return new Response(JSON.stringify({ data }), {
+      headers: { 'Content-Type': 'application/json' },
+      status: 200,
+    })
+  } catch (err) {
+    return new Response(String(err?.message ?? err), { status: 500 })
+  }
+})
     </script>
 </body>
 </html>
