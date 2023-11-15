@@ -10,17 +10,4 @@ $supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 
 $supabase = new SupabaseClient($supabaseUrl, $supabaseKey);
 
-// Example query
-$result = $supabase->from('your-table')->select('*')->get();
-
-// Handle the result
-if ($result->error) {
-    // Handle the error
-    echo 'Error: ' . $result->error->message;
-} else {
-    // Process the data
-    $data = $result->data;
-    // Do something with the data
-}
-
 ?>
