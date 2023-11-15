@@ -35,10 +35,7 @@ if ( ! $stmt->prepare($sql)) {
     die("SQL error: " . $mysqli->error);
 }
 
-$stmt->bind_param("sss",
-                  $_POST["name"],
-                  $_POST["email"],
-                  $_POST["password"];
+$stmt->bind_param("sss", $_POST["name"], $_POST["email"], $_POST["password"])
                   
 if ($stmt->execute()) {
 
