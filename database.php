@@ -6,11 +6,10 @@ $dbName = "dolphinlotto-main-db-0cd5578f30379b183";
 $dbUser = "dolphinlotto-main-db-0cd5578f30379b183";
 $dbPassword = "kjTnmzvBwEsStGfC3FE3V3Gqc6xzqs";
 
-$pgsqlConnection = pg_connect("host=$dbHost port=$dbPort dbname=$dbName user=$dbUser password=$dbPassword");
+$pgsqlConnection = pg_connect("host=$dbHost port=$dbPort dbname=$dbName user=$dbUser password=$dbPassword sslmode=disable");
 
 if (!$pgsqlConnection) {
-    die("Connection failed: " . pg_last_error());
+    die("Connection failed: " . pg_last_error($pgsqlConnection));
 }
 
 return $pgsqlConnection;
-
