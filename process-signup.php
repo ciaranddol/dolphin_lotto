@@ -38,12 +38,9 @@ if ( ! $stmt->prepare($sql)) {
 $stmt->bind_param("sss", $_POST["name"], $_POST["email"], $_POST["password"])
                   
 if ($stmt->execute()) {
-
     header("Location: signup-success.html");
     exit;
-    
 } else {
-    
     if ($mysqli->errno === 1062) {
         die("email already taken");
     } else {
