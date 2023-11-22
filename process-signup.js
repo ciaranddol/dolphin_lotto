@@ -3,10 +3,10 @@ const { Pool } = require('pg');
 // Include the database connection
 const pgsqlConnection = new Pool({
   // Add your PostgreSQL database configuration here
-  user: 'your_username',
-  host: 'your_host',
-  database: 'your_database',
-  password: 'your_password',
+  user = 'postgres',
+  host = 'db.fuhzxgckcobvsvhkqppo.supabase.co',
+  database: 'postgres',
+  password = 'buckbeak1901!',
   port: 5432,
 });
 
